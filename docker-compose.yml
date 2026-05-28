@@ -1,0 +1,12 @@
+services:
+  adhd-worker:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+    deploy:
+      resources:
+        limits:
+          cpus: "8"
+          memory: 64G
