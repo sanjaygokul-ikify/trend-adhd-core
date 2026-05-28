@@ -14,10 +14,14 @@ class ReasoningEngine:
         # Implement parallel hypothesis exploration using multiple threads
         import concurrent.futures
         thoughts = []
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            futures = [executor.submit(self._explore_hypothesis, prompt, self.cognitive_frame) for _ in range(8)]
-            for future in concurrent.futures.as_completed(futures):
-                thoughts.extend(future.result())
+        try:
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                futures = [executor.submit(self._explore_hypothesis, prompt, self.cognitive_frame) for _ in range(8)]
+                for future in concurrent.futures.as_completed(futures):
+                    thoughts.extend(future.result())
+        except Exception as e:
+            logger.error(f'Error during hypothesis exploration: {e}')
+            raise ReasoningError('Hypothesis exploration failed')
         return thoughts
 
     def _explore_hypothesis(self, prompt: str, cognitive_frame: CognitiveFrame) -> List[Thought]:
