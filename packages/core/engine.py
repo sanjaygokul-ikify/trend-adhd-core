@@ -28,11 +28,15 @@ class ReasoningEngine:
         # Implement cognitive bias mitigation using reinforcement-learned evaluators
         from .evaluators import Evaluator
         thoughts = []
-        for _ in range(10):
-            thought = Thought(prompt, cognitive_frame)
-            evaluator = Evaluator(thought)
-            if evaluator.evaluate() > 0.5:
-                thoughts.append(thought)
+        try:
+            for _ in range(10):
+                thought = Thought(prompt, cognitive_frame)
+                evaluator = Evaluator(thought)
+                if evaluator.evaluate() > 0.5:
+                    thoughts.append(thought)
+        except Exception as e:
+            logger.error(f'Error during hypothesis exploration: {e}')
+            raise ReasoningError('Hypothesis exploration failed')
         return thoughts
 
     def prune(self, thoughts: List[Thought]) -> List[Thought]:
