@@ -11,5 +11,9 @@ class Executor:
     def execute(self, prompt: str) -> str:
         thoughts = self.reasoning_engine.explore(prompt)
         pruned_thoughts = self.reasoning_engine.prune(thoughts)
-        final_response = self.reasoning_engine.synthesize(pruned_thoughts)
+        try:
+            final_response = self.reasoning_engine.synthesize(pruned_thoughts)
+        except Exception as e:
+            logger.error(f'Error during thought synthesis: {e}')
+            raise ReasoningError('Thought synthesis failed')
         return final_response
