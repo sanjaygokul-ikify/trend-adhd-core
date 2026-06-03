@@ -15,7 +15,7 @@ class ReasoningEngine:
         import concurrent.futures
         thoughts = []
         try:
-            with concurrent.futures.ThreadPoolExecutor() as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
                 futures = [executor.submit(self._explore_hypothesis, prompt, self.cognitive_frame) for _ in range(8)]
                 for future in concurrent.futures.as_completed(futures):
                     thoughts.extend(future.result())
