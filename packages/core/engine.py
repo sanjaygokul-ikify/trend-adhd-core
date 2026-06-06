@@ -21,7 +21,7 @@ class ReasoningEngine:
                     thoughts.extend(future.result())
         except Exception as e:
             logger.error(f'Error during hypothesis exploration: {e}')
-            raise ReasoningError('Hypothesis exploration failed')
+            raise ReasoningError('Hypothesis exploration failed') from e
         return thoughts
 
     def _explore_hypothesis(self, prompt: str, cognitive_frame: CognitiveFrame) -> List[Thought]:
@@ -36,7 +36,7 @@ class ReasoningEngine:
                     thoughts.append(thought)
         except Exception as e:
             logger.error(f'Error during hypothesis exploration: {e}')
-            raise ReasoningError('Hypothesis exploration failed')
+            raise ReasoningError('Hypothesis exploration failed') from e
         return thoughts
 
     def prune(self, thoughts: List[Thought]) -> List[Thought]:
