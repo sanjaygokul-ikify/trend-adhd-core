@@ -16,4 +16,4 @@ class Executor:
             return final_response
         except Exception as e:
             logger.error(f'Error during thought synthesis: {e}')
-            raise ReasoningError('Thought synthesis failed')
+            raise ReasoningError('Thought synthesis failed') from e
